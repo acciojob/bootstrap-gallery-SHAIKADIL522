@@ -29,15 +29,20 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.9);
-        }
-        .lightbox.active {
-            display: flex;
             justify-content: center;
             align-items: center;
         }
-        .lightbox img {
-            max-width: 90%;
-            max-height: 90%;
+        .lightbox.active {
+            display: flex;
+        }
+        .lightbox::before {
+            content: '';
+            display: block;
+            width: 90%;
+            height: 90%;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
             border-radius: 10px;
         }
         .lightbox-close {
@@ -48,6 +53,7 @@
             font-size: 40px;
             font-weight: bold;
             cursor: pointer;
+            z-index: 10000;
         }
     </style>
 </head>
@@ -59,7 +65,7 @@
             <!-- Card 1 -->
             <div class="col-lg-4 col-md-6 col-sm-12">
                 <div class="card">
-                    <img src="Image1" class="card-img-top" alt="Image 1" onclick="openLightbox(0)">
+                    <img src="Image1" class="card-img-top" alt="Image 1" onclick="openLightbox(0, 'Image1')">
                     <div class="card-body">
                         <h6 class="card-title">Beautiful Landscape 1</h6>
                         <p class="card-text">A stunning view of nature's beauty captured in this moment.</p>
@@ -70,7 +76,7 @@
             <!-- Card 2 -->
             <div class="col-lg-4 col-md-6 col-sm-12">
                 <div class="card">
-                    <img src="Image2" class="card-img-top" alt="Image 2" onclick="openLightbox(1)">
+                    <img src="Image2" class="card-img-top" alt="Image 2" onclick="openLightbox(1, 'Image2')">
                     <div class="card-body">
                         <h6 class="card-title">Beautiful Landscape 2</h6>
                         <p class="card-text">Experience the tranquility of this picturesque scene.</p>
@@ -81,7 +87,7 @@
             <!-- Card 3 -->
             <div class="col-lg-4 col-md-6 col-sm-12">
                 <div class="card">
-                    <img src="Image3" class="card-img-top" alt="Image 3" onclick="openLightbox(2)">
+                    <img src="Image3" class="card-img-top" alt="Image 3" onclick="openLightbox(2, 'Image3')">
                     <div class="card-body">
                         <h6 class="card-title">Beautiful Landscape 3</h6>
                         <p class="card-text">Discover the wonders captured in this photograph.</p>
@@ -92,7 +98,7 @@
             <!-- Card 4 -->
             <div class="col-lg-4 col-md-6 col-sm-12">
                 <div class="card">
-                    <img src="Image4" class="card-img-top" alt="Image 4" onclick="openLightbox(3)">
+                    <img src="Image4" class="card-img-top" alt="Image 4" onclick="openLightbox(3, 'Image4')">
                     <div class="card-body">
                         <h6 class="card-title">Beautiful Landscape 4</h6>
                         <p class="card-text">A mesmerizing capture of natural elegance and beauty.</p>
@@ -103,7 +109,7 @@
             <!-- Card 5 -->
             <div class="col-lg-4 col-md-6 col-sm-12">
                 <div class="card">
-                    <img src="Image5" class="card-img-top" alt="Image 5" onclick="openLightbox(4)">
+                    <img src="Image5" class="card-img-top" alt="Image 5" onclick="openLightbox(4, 'Image5')">
                     <div class="card-body">
                         <h6 class="card-title">Beautiful Landscape 5</h6>
                         <p class="card-text">Immerse yourself in the beauty of this scenic view.</p>
@@ -114,7 +120,7 @@
             <!-- Card 6 -->
             <div class="col-lg-4 col-md-6 col-sm-12">
                 <div class="card">
-                    <img src="Image6" class="card-img-top" alt="Image 6" onclick="openLightbox(5)">
+                    <img src="Image6" class="card-img-top" alt="Image 6" onclick="openLightbox(5, 'Image6')">
                     <div class="card-body">
                         <h6 class="card-title">Beautiful Landscape 6</h6>
                         <p class="card-text">A perfect snapshot of nature's magnificent artistry.</p>
@@ -125,45 +131,45 @@
     </div>
     
     <!-- Lightbox 1 -->
-    <div class="lightbox" onclick="closeLightbox(0)">
+    <div class="lightbox" data-index="0" onclick="closeLightbox(0)">
         <span class="lightbox-close">&times;</span>
-        <img src="Image1" alt="Lightbox Image 1">
     </div>
     
     <!-- Lightbox 2 -->
-    <div class="lightbox" onclick="closeLightbox(1)">
+    <div class="lightbox" data-index="1" onclick="closeLightbox(1)">
         <span class="lightbox-close">&times;</span>
-        <img src="Image2" alt="Lightbox Image 2">
     </div>
     
     <!-- Lightbox 3 -->
-    <div class="lightbox" onclick="closeLightbox(2)">
+    <div class="lightbox" data-index="2" onclick="closeLightbox(2)">
         <span class="lightbox-close">&times;</span>
-        <img src="Image3" alt="Lightbox Image 3">
     </div>
     
     <!-- Lightbox 4 -->
-    <div class="lightbox" onclick="closeLightbox(3)">
+    <div class="lightbox" data-index="3" onclick="closeLightbox(3)">
         <span class="lightbox-close">&times;</span>
-        <img src="Image4" alt="Lightbox Image 4">
     </div>
     
     <!-- Lightbox 5 -->
-    <div class="lightbox" onclick="closeLightbox(4)">
+    <div class="lightbox" data-index="4" onclick="closeLightbox(4)">
         <span class="lightbox-close">&times;</span>
-        <img src="Image5" alt="Lightbox Image 5">
     </div>
     
     <!-- Lightbox 6 -->
-    <div class="lightbox" onclick="closeLightbox(5)">
+    <div class="lightbox" data-index="5" onclick="closeLightbox(5)">
         <span class="lightbox-close">&times;</span>
-        <img src="Image6" alt="Lightbox Image 6">
     </div>
     
     <script>
-        function openLightbox(index) {
+        function openLightbox(index, imageSrc) {
             const lightboxes = document.querySelectorAll('.lightbox');
-            lightboxes[index].classList.add('active');
+            const lightbox = lightboxes[index];
+            lightbox.style.setProperty('--bg-image', `url(${imageSrc})`);
+            lightbox.style.backgroundImage = `url(${imageSrc})`;
+            lightbox.style.backgroundSize = 'contain';
+            lightbox.style.backgroundRepeat = 'no-repeat';
+            lightbox.style.backgroundPosition = 'center';
+            lightbox.classList.add('active');
         }
         
         function closeLightbox(index) {
